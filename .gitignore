@@ -1,0 +1,18 @@
+# Generated artifacts (created by install.sh)
+~/.claude/
+~/.claude/agents/
+~/.claude/teams/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor files
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
+
+# Backup files
+*.backup.*

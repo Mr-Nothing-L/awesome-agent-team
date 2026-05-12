@@ -11,6 +11,27 @@
 
 ---
 
+## Quickstart / 快速开始
+
+Give your Claude Code **Awesome Agent Team**:
+
+```bash
+# Step 1: Clone the repository
+git clone https://github.com/Mr-Nothing-L/awesome-agent-team.git
+cd awesome-agent-team
+
+# Step 2: Run the install script
+./scripts/install.sh
+
+# Step 3: Restart Claude Code
+claude
+
+# Step 4: Launch your team
+/awesome-agent-team
+```
+
+---
+
 ## Key Difference / 关键区别
 
 | | Subagent Simulation (Old) | **Native Agent Teams (This Plugin)** |
@@ -26,21 +47,21 @@
 
 ## Table of Contents / 目录
 
-- [Prerequisites / 前置条件](#prerequisites--前置条件)
 - [Installation / 安装](#installation--安装)
 - [Usage / 使用](#usage--使用)
 - [How It Works / 工作原理](#how-it-works--工作原理)
 - [Available Roles / 可用角色](#available-roles--可用角色)
 - [Architecture / 架构](#architecture--架构)
 - [Customization / 自定义](#customization--自定义)
-- [Pipeline Documentation / 流水线文档](#pipeline-documentation--流水线文档)
 - [FAQ / 常见问题](#faq--常见问题)
 
 ---
 
-## Prerequisites / 前置条件
+## Installation / 安装
 
-### 1. Enable Agent Teams / 启用 Agent Teams
+### Prerequisites / 前置条件
+
+#### 1. Enable Agent Teams / 启用 Agent Teams
 
 Add to `~/.claude/settings.json`:
 
@@ -60,7 +81,7 @@ export CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1
 
 > ⚠️ **Agent Teams is an experimental feature.** Requires Claude Code v2.1.96+.
 
-### 2. Install jq / 安装 jq
+#### 2. Install jq / 安装 jq
 
 The install script requires `jq`:
 
@@ -72,14 +93,11 @@ brew install jq
 sudo apt-get install jq
 ```
 
----
-
-## Installation / 安装
-
 ### Step 1: Clone the Repository / 克隆仓库
 
 ```bash
-git clone https://github.com/yourname/awesome-agent-team.git
+git clone https://github.com/Mr-Nothing-L/awesome-agent-team.git
+cd awesome-agent-team
 ```
 
 ### Step 2: Run the Install Script / 运行安装脚本
@@ -87,14 +105,13 @@ git clone https://github.com/yourname/awesome-agent-team.git
 **Interactive Mode** (recommended):
 
 ```bash
-cd awesome-agent-team
 ./scripts/install.sh
 ```
 
 The script will:
 - Ask you to select team size (3-7 members)
 - Let you choose roles or randomize them
-- Randomly assign English names from 200+ name pool
+- Randomly assign English names from 400+ name pool
 - Randomly assign personalities from 20 persona profiles
 - Generate agent configs in `~/.claude/agents/`
 - Create team config in `~/.claude/teams/awesome-agent-team/`
@@ -263,7 +280,7 @@ awesome-agent-team/
 │           ├── agent-names.md   # Human-readable name reference
 │           └── agent-personas.md # Human-readable persona reference
 ├── assets/
-│   ├── names.json               # 200+ names (machine-readable)
+│   ├── names.json               # 400+ names (machine-readable)
 │   └── personas.json            # 20 personas (machine-readable)
 ├── scripts/
 │   └── install.sh               # Install script (randomizes team)
@@ -322,16 +339,6 @@ You are {{NAME}}, a [Role] on the Awesome Agent Team. {{PERSONALITY}}
 
 ---
 
-## Pipeline Documentation / 流水线文档
-
-For detailed pipeline documentation (中英双语), see:
-
-- **[`skills/awesome-agent-team/references/agent-names.md`](./skills/awesome-agent-team/references/agent-names.md)** — 200+ English name pool
-- **[`skills/awesome-agent-team/references/agent-personas.md`](./skills/awesome-agent-team/references/agent-personas.md)** — 20 personality profiles
-- **[`skills/awesome-agent-team/SKILL.md`](./skills/awesome-agent-team/SKILL.md)** — Full skill definition with 6-phase workflow
-
----
-
 ## FAQ / 常见问题
 
 **Q: Is this using real Agent Teams or simulated subagents?**
@@ -344,11 +351,11 @@ A: **真正的 Agent Team。** 本插件使用 Claude Code 原生的 `TeammateTo
 
 **Q: How do I enable Agent Teams?**
 
-A: Add `"CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"` to `~/.claude/settings.json` under the `env` key. See [Prerequisites](#prerequisites--前置条件).
+A: Add `"CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"` to `~/.claude/settings.json` under the `env` key. See [Installation](#installation--安装).
 
 **Q: 如何启用 Agent Teams？**
 
-A: 在 `~/.claude/settings.json` 的 `env` 下添加 `"CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"`。参见 [前置条件](#prerequisites--前置条件)。
+A: 在 `~/.claude/settings.json` 的 `env` 下添加 `"CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"`。参见 [安装](#installation--安装)。
 
 **Q: Can I re-run install.sh for a different team?**
 

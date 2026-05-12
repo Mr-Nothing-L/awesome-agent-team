@@ -121,7 +121,7 @@ build_name_pool() {
 # Shuffle and pick names
 pick_random_names() {
   local count="$1"
-  build_name_pool | shuf -n "$count"
+  build_name_pool | sort -R | head -n "$count"
 }
 
 # Pick random personas (unique indices)
@@ -129,7 +129,7 @@ pick_random_personas() {
   local count="$1"
   local total
   total=$(jq '.personas | length' "$PERSONAS_FILE")
-  seq 0 $((total - 1)) | shuf -n "$count"
+  seq 0 $((total - 1)) | sort -R | head -n "$count"
 }
 
 # Generate agent file from template
@@ -195,7 +195,7 @@ AGENT_TYPES=(
 # In auto mode, randomly select 3-5 agent types
 if [[ "$AUTO_MODE" == true ]]; then
   TEAM_SIZE=${TEAM_SIZE:-$((3 + RANDOM % 3))}
-  SELECTED_TYPES=($(printf '%s\n' "${AGENT_TYPES[@]}" | shuf -n "$TEAM_SIZE"))
+  SELECTED_TYPES=($(printf '%s\n' "${AGENT_TYPES[@]}" | sort -R | head -n "$TEAM_SIZE"))
   echo -e "${GREEN}✓ Auto-selected $TEAM_SIZE roles${NC}"
 else
   # Interactive mode
@@ -219,7 +219,7 @@ else
   read -rp "> " selection
 
   if [[ "$selection" == "random" ]]; then
-    SELECTED_TYPES=($(printf '%s\n' "${AGENT_TYPES[@]}" | shuf -n "$TEAM_SIZE"))
+    SELECTED_TYPES=($(printf '%s\n' "${AGENT_TYPES[@]}" | sort -R | head -n "$TEAM_SIZE"))
   else
     SELECTED_TYPES=()
     IFS=',' read -ra indices <<< "$selection"
@@ -231,7 +231,7 @@ else
     done
     if [[ ${#SELECTED_TYPES[@]} -eq 0 ]]; then
       echo -e "${YELLOW}! No valid selection, using random${NC}"
-      SELECTED_TYPES=($(printf '%s\n' "${AGENT_TYPES[@]}" | shuf -n "$TEAM_SIZE"))
+      SELECTED_TYPES=($(printf '%s\n' "${AGENT_TYPES[@]}" | sort -R | head -n "$TEAM_SIZE"))
     fi
   fi
 fi
@@ -282,7 +282,7 @@ leader_emoji=$(get_persona "$leader_persona" | jq -r '.emoji')
 echo -e "  ${BOLD}👑 $leader_name${NC} — visionary-leader ($leader_persona_name $leader_emoji)"
 
 MEMBERS_JSON+="{\"name\":\"$leader_name\",\"role\":\"visionary-leader\",\"type\":\"leader\"}"
-((NAME_IDX++))
+NAME_IDX=$((NAME_IDX + 1))
 
 # Generate each teammate
 for agent_type in "${SELECTED_TYPES[@]}"; do
@@ -306,7 +306,7 @@ for agent_type in "${SELECTED_TYPES[@]}"; do
   echo -e "  ${BOLD}  $name${NC} — $agent_type ($persona_name $emoji)"
 
   MEMBERS_JSON+=",{\"name\":\"$name\",\"role\":\"$agent_type\",\"type\":\"teammate\"}"
-  ((NAME_IDX++))
+  NAME_IDX=$((NAME_IDX + 1))
 done
 
 MEMBERS_JSON+=']'
