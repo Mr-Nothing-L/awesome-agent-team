@@ -1,0 +1,39 @@
+{
+  "name": "awesome-agent-team",
+  "version": "1.0.0",
+  "description": "Awesome Agent Team with randomized names and personalities",
+  "members": [
+    {
+      "name": "Joseph",
+      "role": "visionary-leader",
+      "type": "leader"
+    },
+    {
+      "name": "Mitchell",
+      "role": "architect",
+      "type": "teammate"
+    },
+    {
+      "name": "Amy",
+      "role": "product-manager",
+      "type": "teammate"
+    },
+    {
+      "name": "Gareth",
+      "role": "security-reviewer",
+      "type": "teammate"
+    },
+    {
+      "name": "Arthur",
+      "role": "backend-dev",
+      "type": "teammate"
+    },
+    {
+      "name": "Shannon",
+      "role": "qa-tester",
+      "type": "teammate"
+    }
+  ],
+  "createdAt": "2026-05-12T19:23:41.398Z",
+  "plugin": "awesome-agent-team"
+}

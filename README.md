@@ -13,14 +13,14 @@
 
 ## Quickstart / 快速开始
 
-Give your Claude Code **Awesome Agent Team**:
+Give your Claude Code **Awesome Agent Team** in 30 seconds:
 
 ```bash
 # Step 1: Clone the repository
 git clone https://github.com/Mr-Nothing-L/awesome-agent-team.git
 cd awesome-agent-team
 
-# Step 2: Run the install script
+# Step 2: Install prebuilt team (zero dependencies!)
 ./scripts/install.sh
 
 # Step 3: Restart Claude Code
@@ -29,6 +29,8 @@ claude
 # Step 4: Launch your team
 /awesome-agent-team
 ```
+
+The repo includes a **ready-to-use team** (5 agents + leader with unique names and personalities). No `jq`, no `node`, no waiting for generation.
 
 ---
 
@@ -59,59 +61,43 @@ claude
 
 ## Installation / 安装
 
-### Method 1: npm (Recommended) / npm 安装（推荐）
+### Method 1: Bash Quick Install (Recommended) / Bash 快速安装（推荐）
 
-**Global install**:
-```bash
-npm install -g awesome-agent-team
-awesome-agent-team init
-```
+The repository includes a **prebuilt team** (5 agents + leader). Just copy them into place — no dependencies needed:
 
-**One-time use with npx** (no installation):
-```bash
-npx awesome-agent-team init
-```
-
-**Auto mode with specific team size**:
-```bash
-npx awesome-agent-team init --auto --team-size 5
-```
-
-**Use custom names**:
-```bash
-npx awesome-agent-team init --names "Elena,Marcus,Sophie,Aiden"
-```
-
-### Method 2: Git Clone + Bash / Git 克隆 + Bash
-
-#### Prerequisites / 前置条件
-
-**Enable Agent Teams**:
-```json
-{
-  "env": {
-    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"
-  }
-}
-```
-
-**Install jq**:
-```bash
-# macOS
-brew install jq
-
-# Linux
-sudo apt-get install jq
-```
-
-**Clone and install**:
 ```bash
 git clone https://github.com/Mr-Nothing-L/awesome-agent-team.git
 cd awesome-agent-team
 ./scripts/install.sh
 ```
 
-### Method 3: Claude Code /plugin / Claude Code 插件命令
+No `jq`, no `node`, no runtime randomization. The agents are ready immediately.
+
+### Method 2: npm / Generate a Custom Team / npm 生成自定义团队
+
+If you want a **fresh random team** with custom names/size:
+
+**Global install**:
+```bash
+npm install -g awesome-agent-team
+awesome-agent-team init --auto --team-size 5
+```
+
+**One-time with npx**:
+```bash
+npx awesome-agent-team init --names "Elena,Marcus,Sophie"
+```
+
+### Method 3: Git Clone + npm / Git 克隆 + npm
+
+```bash
+git clone https://github.com/Mr-Nothing-L/awesome-agent-team.git
+cd awesome-agent-team
+npm install
+npm run init
+```
+
+### Method 4: Claude Code /plugin / Claude Code 插件命令
 
 ```bash
 # In Claude Code:
@@ -119,6 +105,8 @@ cd awesome-agent-team
 /plugin install awesome-agent-team@awesome-agent-team-marketplace
 
 # Then initialize:
+./scripts/install.sh   # Uses prebuilt agents
+# Or for a custom team:
 npx awesome-agent-team init
 ```
 
