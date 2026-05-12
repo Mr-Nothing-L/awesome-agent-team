@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "description": "Awesome Agent Team — Recommended settings for Claude Code",
+  "env": {
+    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"
+  },
+  "teammateMode": "auto",
+  "permissions": {
+    "allow": [
+      "Agent(*)",
+      "Teammate(*)",
+      "TaskCreate",
+      "TaskUpdate",
+      "TaskList",
+      "TaskGet",
+      "SendMessage"
+    ]
+  },
+  "autoMode": {
+    "environment": [
+      "Agent Teams experimental feature is enabled",
+      "Teammates communicate via SendMessage and shared task lists",
+      "Visionary Leader coordinates via TeammateTool.spawnTeam"
+    ]
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "name": "awesome-agent-team",
+  "version": "1.0.0",
+  "description": "Multi-agent team orchestration for Claude Code with randomized personalities, names, and a Visionary Leader that brainstorms your goals before assembling the perfect team.",
+  "author": {
+    "name": "Awesome Agent Team Contributors"
+  },
+  "repository": "https://github.com/yourname/awesome-agent-team",
+  "homepage": "https://github.com/yourname/awesome-agent-team",
+  "license": "MIT",
+  "keywords": [
+    "claude-code",
+    "plugin",
+    "multi-agent",
+    "agent-teams",
+    "orchestration",
+    "personality",
+    "collaboration"
+  ],
+  "skills": [
+    "./skills/awesome-agent-team/"
+  ],
+  "commands": "./commands/"
+}
