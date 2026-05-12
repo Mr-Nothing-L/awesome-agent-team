@@ -1,0 +1,24 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "awesome-agent-team-marketplace",
+  "owner": {
+    "name": "Mr-Nothing-L",
+    "email": "l@mr-nothing-l.dev"
+  },
+  "metadata": {
+    "description": "Awesome Agent Team plugins and extensions",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "awesome-agent-team",
+      "source": {
+        "source": "url",
+        "url": "https://github.com/Mr-Nothing-L/awesome-agent-team.git"
+      },
+      "description": "Multi-agent team orchestration for Claude Code with randomized personalities. 400+ names, 20 personas, 12 roles. Includes a Visionary Leader that brainstorms your goals before deploying a native Agent Team via TeammateTool.",
+      "version": "1.0.0",
+      "strict": true
+    }
+  ]
+}

@@ -59,12 +59,34 @@ claude
 
 ## Installation / 安装
 
-### Prerequisites / 前置条件
+### Method 1: npm (Recommended) / npm 安装（推荐）
 
-#### 1. Enable Agent Teams / 启用 Agent Teams
+**Global install**:
+```bash
+npm install -g awesome-agent-team
+awesome-agent-team init
+```
 
-Add to `~/.claude/settings.json`:
+**One-time use with npx** (no installation):
+```bash
+npx awesome-agent-team init
+```
 
+**Auto mode with specific team size**:
+```bash
+npx awesome-agent-team init --auto --team-size 5
+```
+
+**Use custom names**:
+```bash
+npx awesome-agent-team init --names "Elena,Marcus,Sophie,Aiden"
+```
+
+### Method 2: Git Clone + Bash / Git 克隆 + Bash
+
+#### Prerequisites / 前置条件
+
+**Enable Agent Teams**:
 ```json
 {
   "env": {
@@ -73,18 +95,7 @@ Add to `~/.claude/settings.json`:
 }
 ```
 
-Or set the environment variable:
-
-```bash
-export CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1
-```
-
-> ⚠️ **Agent Teams is an experimental feature.** Requires Claude Code v2.1.96+.
-
-#### 2. Install jq / 安装 jq
-
-The install script requires `jq`:
-
+**Install jq**:
 ```bash
 # macOS
 brew install jq
@@ -93,52 +104,27 @@ brew install jq
 sudo apt-get install jq
 ```
 
-### Step 1: Clone the Repository / 克隆仓库
-
+**Clone and install**:
 ```bash
 git clone https://github.com/Mr-Nothing-L/awesome-agent-team.git
 cd awesome-agent-team
-```
-
-### Step 2: Run the Install Script / 运行安装脚本
-
-**Interactive Mode** (recommended):
-
-```bash
 ./scripts/install.sh
 ```
 
-The script will:
-- Ask you to select team size (3-7 members)
-- Let you choose roles or randomize them
-- Randomly assign English names from 400+ name pool
-- Randomly assign personalities from 20 persona profiles
-- Generate agent configs in `~/.claude/agents/`
-- Create team config in `~/.claude/teams/awesome-agent-team/`
-- Enable Agent Teams in `~/.claude/settings.json`
-
-**Auto Mode** (random team):
+### Method 3: Claude Code /plugin / Claude Code 插件命令
 
 ```bash
-./scripts/install.sh --auto
+# In Claude Code:
+/plugin marketplace add Mr-Nothing-L/awesome-agent-team-marketplace
+/plugin install awesome-agent-team@awesome-agent-team-marketplace
+
+# Then initialize:
+npx awesome-agent-team init
 ```
 
-**Specify Team Size**:
+### Step: Restart Claude Code / 重启 Claude Code
 
 ```bash
-./scripts/install.sh --team-size 5
-```
-
-**Use Custom Names**:
-
-```bash
-./scripts/install.sh --names "Ava,Noah,Liam,Sofia"
-```
-
-### Step 3: Restart Claude Code / 重启 Claude Code
-
-```bash
-# Exit and restart
 claude
 ```
 
