@@ -30,7 +30,7 @@ Decide:
 - The first task each role will own and which files / folders they will own
 
 **Read role templates for inspiration**:
-The `team-workflow` skill's `references/role-templates/` directory contains starter templates for common roles. Read them with the `Read` tool when planning. They are NOT meant to be used as-is — customize them with project-specific context.
+The `using-agent-teams` skill's `references/role-templates/` directory contains starter templates for common roles. Read them with the `Read` tool when planning. They are NOT meant to be used as-is — customize them with project-specific context.
 
 **Team size guidance**: 2-5 teammates is the sweet spot. Don't pad the team. A small focused team beats a large scattered one. The docs from Anthropic confirm 3-5 is optimal for most workflows.
 

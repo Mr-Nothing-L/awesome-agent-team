@@ -18,7 +18,7 @@ Launch a real Claude Code Agent Team. Five phases:
 2. **Team-Leader brainstorm** — spawn a Team-Leader subagent who clarifies the goal, drafts the team in conversation, and writes role files only after the user explicitly approves
 3. **Team spawn** — use `TeamCreate` to spawn Team-Leader + workers as persistent teammates with randomized names and personalities
 
-Follow the `team-workflow` skill for the full protocol. The summary below is the entry point.
+Follow the `awesome-agent-team` skills (`brainstorm-team`, `spawn-team`, `coordinate-team`) for detailed protocols. The summary below is the entry point.
 
 ---
 
@@ -26,7 +26,7 @@ Follow the `team-workflow` skill for the full protocol. The summary below is the
 
 Before doing anything technical, **introduce yourself as a person**.
 
-1. **Roll a name** (if you don't already have one for this project). Pick a single common English first name from the pool in `skills/team-workflow/references/names.json` — or reuse the one you already rolled in a previous session.
+1. **Roll a name** (if you don't already have one for this project). Pick a single common English first name from the pool in `skills/spawn-team/references/names.json` — or reuse the one you already rolled in a previous session.
 2. **Greet the user in first person**, with a warm, slightly playful tone. Example openings:
    - "Hi, I'm Kevin. Let me get the lay of the land first — what are we building today?"
    - "Hey there, Riley here. Before I start calling shots, tell me what this project is about."
@@ -105,7 +105,7 @@ The Team-Leader will:
 
 > **Path requirement**: `/start-team` must be invoked from the project root directory. All phases execute in the same directory. The Team-Leader writes to `./recruitment-plan.md` and `./.claude/agents/`, and the main session reads from the same paths. If the user changed directory between phases, resolve to the absolute project root first.
 
-The Team-Leader's full protocol is in the `team-workflow` skill. Do not duplicate it here.
+The Team-Leader's full protocol is in the `brainstorm-team` skill. Do not duplicate it here.
 
 ---
 
@@ -119,7 +119,7 @@ When the Team-Leader returns:
    - Must have YAML frontmatter delimited by `---`.
    - Must contain `name` and `description` keys.
    - If validation fails, surface the error to the user before proceeding.
-4. Load `skills/team-workflow/references/names.json` and `personas.json` from this plugin.
+4. Load `skills/spawn-team/references/names.json` and `personas.json` from this plugin.
 5. For each role (and the Team-Leader itself), pick a unique random name and a unique random persona. If the user specified names, respect them. Never reuse the same name or persona within one team.
 6. Call `TeamCreate`:
    - `teamName`: a short slug, e.g., `<repo-name>-team` or `awesome-agent-team` if no obvious project name
@@ -127,7 +127,7 @@ When the Team-Leader returns:
      - Try the role slug first (e.g., `frontend-react-tailwind`). If Claude Code can resolve it from `./.claude/agents/`, use it.
      - **Fallback**: if the agentType cannot be resolved, embed the full role definition (frontmatter + body) into the `spawnPrompt` and use a generic `agentType` like `general-purpose`.
    - **Also include the Team-Leader** as a teammate (so the user can talk to them during execution)
-   - Each spawn prompt must follow the template in `team-workflow` skill (name, persona, speaking style, role file reference, coordination instructions)
+   - Each spawn prompt must follow the template in `spawn-team` skill (name, persona, speaking style, role file reference, coordination instructions)
 7. After spawn, brief the team via `SendMessage` to the Team-Leader teammate, telling them to read `./recruitment-plan.md` and start coordinating.
 
 ---
