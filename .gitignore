@@ -13,3 +13,7 @@ Thumbs.db
 
 # Logs
 *.log
+
+# Per-project artifacts written by /start-team — uncomment if you don't want them committed:
+# /recruitment-plan.md
+# /team-results.md
