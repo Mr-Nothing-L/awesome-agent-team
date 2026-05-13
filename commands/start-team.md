@@ -19,6 +19,7 @@ Launch a real Claude Code Agent Team. Five phases:
 1. **Preflight** — verify Agent Teams is enabled in `~/.claude/settings.json`, enable it if not
 2. **Team-Leader brainstorm** — spawn a Team-Leader subagent who clarifies the goal, drafts the team in conversation, and writes role files only after the user explicitly approves
 3. **Team spawn** — use `TeamCreate` to spawn Team-Leader + workers as persistent teammates with randomized names and personalities
+4. **Execution & cleanup** — monitor the running team, nudge via `SendMessage`, then synthesize `./team-results.md` and call `TeamDelete` when done
 
 Follow the `awesome-agent-team` skills (`brainstorm-team`, `spawn-team`, `coordinate-team`) for detailed protocols. The summary below is the entry point.
 
