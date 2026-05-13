@@ -53,30 +53,33 @@ Required:
 
 **Step 3a — If nothing is missing** → proceed to Phase 2.
 
-**Step 3b — If anything is missing**, patch settings.json with a *full rewrite*, never with a partial edit:
+**Step 3b — If anything is missing**, do **not** attempt to auto-write `settings.json` — writes to this file trigger a permission prompt even in AUTO mode. Instead, show the user exactly what to add and let them apply it manually:
 
-1. Build a `new_settings` object starting from the file you just read (or `{}` if absent). Mutate ONLY two keys:
-   - `new_settings.env ||= {}; new_settings.env.CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS = "1"`
-   - `new_settings.permissions ||= {}; new_settings.permissions.allow ||= []`
-   - Append (do NOT duplicate) any of the tools that are missing, preserving the existing order.
-   - **Do NOT touch any other keys.** Every key in the file you read MUST appear unchanged in `new_settings`.
+1. **Build a copy-pasteable snippet** of the missing entries. Example:
 
-2. **Show the user a short diff before writing** — list the env key you're setting and the permission entries you are appending. Example:
-
-   ```
-   Will update ~/.claude/settings.json:
-     + env.CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS = "1"
-     + permissions.allow += ["TeamCreate", "TeamDelete", "SendMessage"]
-   (other keys preserved verbatim)
+   ```json
+   {
+     "env": {
+       "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"
+     },
+     "permissions": {
+       "allow": ["TeamCreate", "TeamDelete", "SendMessage", "TaskCreate", "TaskUpdate", "TaskList", "TaskGet", "TaskStop", "ExitWorktree", "Agent"]
+     }
+   }
    ```
 
-3. Use the **`Write` tool (NOT `Edit`)** to write the full `new_settings` back to `~/.claude/settings.json`. Serialize as pretty JSON: 2-space indent, trailing newline. The full rewrite is what guarantees the file's structure remains valid — partial edits on nested JSON are fragile and easy to corrupt.
+   If the user already has an `env` or `permissions` block, tell them to merge the new keys into the existing object (do not replace the whole file).
 
-4. **STOP. Do NOT proceed to Phase 2.** Tell the user verbatim:
+2. **Present the snippet clearly** and tell the user:
+   - Open `~/.claude/settings.json` (create it if it does not exist).
+   - Merge the snippet above into their existing config.
+   - Save the file.
 
-   > Agent Teams was just enabled in your Claude Code settings (`~/.claude/settings.json`). The env flag must be loaded at process startup, so **exit and restart Claude Code** (run `claude` again), then re-invoke `/start-team`. The current session can't use Agent Teams.
+3. **STOP. Do NOT proceed to Phase 2.** Tell the user verbatim:
 
-5. End the turn here. The user will restart and re-invoke.
+   > The env flag must be loaded at process startup, so **exit and restart Claude Code** (run `claude` again), then re-invoke `/start-team`. The current session can't use Agent Teams.
+
+4. End the turn here. The user will restart and re-invoke.
 
 ---
 

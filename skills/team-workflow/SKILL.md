@@ -42,7 +42,7 @@ Handled inside the `/start-team` command. Summary:
 - Read `~/.claude/settings.json` (treat missing file as `{}`).
 - Required: `env.CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS === "1"` and these permissions in `permissions.allow`: `TeamCreate`, `TeamDelete`, `SendMessage`, `TaskCreate`, `TaskUpdate`, `TaskList`, `TaskGet`, `TaskStop`, `ExitWorktree`, `Agent`.
   > Note: `Agent` covers all subagent types. If your Claude Code version uses `Agent(*)` instead, accept that as valid too.
-- If anything is missing, patch the file via a *full `Write`-tool rewrite* (never partial `Edit` on nested JSON), preserving every other key. Show the user a one-paragraph diff before writing. Then STOP and tell the user to restart Claude Code. Don't proceed.
+- If anything is missing, **do not auto-write** — even in AUTO mode, writes to `~/.claude/settings.json` trigger a permission prompt. Instead, show the user a copy-pasteable JSON snippet of the missing entries, tell them to merge it into their existing config manually, save, then restart Claude Code. Don't proceed until they confirm the restart.
 
 ---
 
