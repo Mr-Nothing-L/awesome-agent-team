@@ -147,7 +147,7 @@ When the Team-Leader returns:
 ## Phase 4: Execution & Cleanup
 
 While the team runs:
-- Cycle through teammates with `Shift+Down` (in-process) or click panes (split mode).
+- Cycle through teammates with `Shift+Up/Down` (in-process) or click panes (split mode).
 - Watch the shared task list (`Ctrl+T`).
 - Nudge stuck teammates via `SendMessage`.
 
