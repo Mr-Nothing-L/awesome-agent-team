@@ -60,8 +60,12 @@ Before anything else, ensure `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1` is set in 
 Required:
 - `env.CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS === "1"`
 - These tools must be present in `permissions.allow` (any missing counts as not OK):
-  `TeamCreate`, `TeamDelete`, `SendMessage`, `TaskCreate`, `TaskUpdate`, `TaskList`, `TaskGet`, `TaskStop`, `ExitWorktree`, `Agent`
-  > Note: `Agent` covers all subagent types. If your Claude Code version uses `Agent(*)` instead, accept that as valid too.
+  `TeamCreate`, `TeamDelete`, `SendMessage`, `TaskCreate`, `TaskUpdate`, `TaskList`, `TaskGet`, `TaskStop`, `ExitWorktree`
+- Plus a permission that covers spawning any subagent. Accept any **one** of:
+  - `Agent(*)` — full wildcard, preferred
+  - `Agent(awesome-agent-team:team-leader)` — scoped to just this plugin's Team-Leader
+  - `Agent(awesome-agent-team:*)` — scoped to this plugin's namespace
+  Reject a bare `Agent` entry without a scope argument — Claude Code's permission DSL requires the `(...)` form, and a bare `Agent` may be silently ignored.
 
 **Step 3a — If nothing is missing** → proceed to Phase 2.
 
