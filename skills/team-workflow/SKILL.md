@@ -1,6 +1,6 @@
 ---
 name: team-workflow
-description: Full protocol for the /start-team command — preflight, Team-Leader brainstorm, generating project-specific worker roles, and spawning a persistent Agent Team via TeamCreate with randomized names and personalities. Use when the user invokes /start-team, asks to create an agent team, mentions multi-agent orchestration, or wants persistent teammates that coordinate via SendMessage.
+description: Orchestrate a persistent Agent Team via /start-team — brainstorm goals, generate project-specific worker roles, and spawn teammates with randomized names & personalities.
 ---
 
 # team-workflow — Agent Team protocol
