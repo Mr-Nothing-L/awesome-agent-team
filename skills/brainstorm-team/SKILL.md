@@ -1,6 +1,7 @@
 ---
 name: brainstorm-team
 description: |
+  Match the user's language. If the user writes in Chinese, reply in Chinese.
   Brainstorm with a Team-Leader to design an Agent Team tailored to your project.
   Clarify goals, draft customized worker roles, iterate with the Team-Leader,
   and get a recruitment plan plus project-specific agent definitions.
