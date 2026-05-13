@@ -1,5 +1,7 @@
 # awesome-agent-team
 
+> [中文 README](./README_ZH.md)
+>
 > A [Claude Code](https://claude.ai/code) plugin that spawns a **real native Agent Team**. A Team-Leader brainstorms your goal with you, generates **project-specific** worker roles, then assembles persistent teammates via `TeamCreate` — each with a randomized name and a distinct personality, coordinating through `SendMessage` and a shared task list.
 
 [![Claude Code](https://img.shields.io/badge/Claude%20Code-Plugin-blue)](https://claude.ai/code)
