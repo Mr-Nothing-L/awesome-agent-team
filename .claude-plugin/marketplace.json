@@ -1,7 +1,7 @@
 {
   "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
   "name": "awesome-agent-team",
-  "description": "Spawn a real Claude Code Agent Team. A Project Manager brainstorms your goal, generates project-specific worker roles, then assembles persistent teammates via TeamCreate with randomized names and personalities.",
+  "description": "Spawn a real Claude Code Agent Team. A Team-Leader brainstorms your goal, generates project-specific worker roles, then assembles persistent teammates via TeamCreate with randomized names and personalities.",
   "owner": {
     "name": "Mr-Nothing-L"
   },
