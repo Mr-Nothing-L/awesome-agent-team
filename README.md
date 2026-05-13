@@ -31,7 +31,7 @@ You get a team that *feels* like a team: each member has a name, a voice, a defi
 - **Claude Code** ≥ v2.1.32 (Agent Teams is an experimental feature)
 - **git** (for cloning; the install scripts also use it)
 - **OS**: Linux, macOS, Windows (PowerShell / Git Bash / WSL all OK)
-- One environment variable: `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1` — **handled automatically** by the plugin's `/start-team` preflight on first run.
+- One environment variable: `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1`. On first run, `/start-team`'s preflight detects whether it's set; if not, it prints a copy-pasteable JSON snippet and asks you to merge it into `~/.claude/settings.json` and restart. One-time setup; subsequent runs are zero-friction.
 
 ---
 

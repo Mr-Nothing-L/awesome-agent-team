@@ -29,7 +29,7 @@
 - **Claude Code** ≥ v2.1.32（Agent Teams 是实验性功能）
 - **git**（安装脚本需要）
 - **OS**: Linux、macOS、Windows（PowerShell / Git Bash / WSL 均可）
-- 一个环境变量：`CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1` —— 首次运行 `/start-team` 时插件会自动处理。
+- 一个环境变量：`CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1`。首次运行 `/start-team` 时，preflight 会检测是否启用；未启用时，插件会给出可直接复制的 JSON 片段，并提示你合并到 `~/.claude/settings.json` 后重启。只需配置一次，之后每次运行都是零摩擦。
 
 ---
 
