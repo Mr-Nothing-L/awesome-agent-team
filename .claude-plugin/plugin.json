@@ -1,24 +1,20 @@
 {
   "name": "awesome-agent-team",
-  "version": "1.0.0",
-  "description": "Multi-agent team orchestration for Claude Code with randomized personalities, names, and a Visionary Leader that brainstorms your goals before assembling the perfect team.",
+  "version": "0.1.0",
+  "description": "Spawn a real Claude Code Agent Team. A PM brainstorms your goal, generates project-specific worker roles, then assembles persistent teammates via TeamCreate with randomized names and personalities.",
   "author": {
-    "name": "Awesome Agent Team Contributors"
+    "name": "Mr-Nothing-L"
   },
-  "repository": "https://github.com/Mr-Nothing-L/awesome-agent-team",
-  "homepage": "https://github.com/Mr-Nothing-L/awesome-agent-team",
   "license": "MIT",
   "keywords": [
     "claude-code",
-    "plugin",
-    "multi-agent",
     "agent-teams",
+    "multi-agent",
     "orchestration",
-    "personality",
-    "collaboration"
+    "project-manager",
+    "personality"
   ],
-  "skills": [
-    "./skills/awesome-agent-team/"
-  ],
-  "commands": "./commands/"
+  "skills": ["./skills/team-workflow/"],
+  "commands": "./commands/",
+  "agents": "./agents/"
 }

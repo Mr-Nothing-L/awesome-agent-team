@@ -1,5 +1,5 @@
 {
-  "description": "Random English first name pool for Awesome Agent Team. Each team installation gets unique names.",
+  "description": "Random English first-name pool. The /start-team command draws a unique name for each teammate (including the PM) at TeamCreate time.",
   "male": [
     "Aaron", "Adam", "Adrian", "Aiden", "Alan", "Albert", "Alex", "Alexander", "Alfred", "Andrew",
     "Andy", "Anthony", "Archer", "Arthur", "Austin", "Barrett", "Barry", "Beckett", "Ben", "Benjamin",

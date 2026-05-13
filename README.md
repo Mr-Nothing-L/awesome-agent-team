@@ -1,226 +1,236 @@
-# Awesome Agent Team 🚀
+# awesome-agent-team
 
-> A [Claude Code](https://claude.ai/code) **Plugin** that launches a **native Agent Team** — real, persistent teammates with randomized English names, unique personalities, and speaking styles. Features a Visionary Leader who brainstorms your goals before assembling the perfect team via `TeammateTool`.
-
-> 一个用于 [Claude Code](https://claude.ai/code) 的 **Plugin**，可以拉起**原生的 Agent Team** — 每个 Teammate 都是独立的 Claude Code 实例，拥有随机的英文名、独特的性格和说话风格。愿景领袖（Visionary Leader）通过头脑风暴理解你的目标，然后通过 `TeammateTool` 组建最合适的团队。
+> A [Claude Code](https://claude.ai/code) plugin that spawns a **real native Agent Team**. A Project Manager brainstorms your goal with you, generates **project-specific** worker roles, then assembles persistent teammates via `TeamCreate` — each with a randomized name and a distinct personality, coordinating through `SendMessage` and a shared task list.
+>
+> 一个 [Claude Code](https://claude.ai/code) 插件，启动**真正的原生 Agent Team**。项目经理（PM）先和你头脑风暴，理解目标后生成**项目专属**的员工角色定义，再通过 `TeamCreate` 拉起持久化的队友 —— 每位队友有随机的英文名和独特性格，通过 `SendMessage` 和共享任务列表协作。
 
 [![Claude Code](https://img.shields.io/badge/Claude%20Code-Plugin-blue)](https://claude.ai/code)
-[![Agent Teams](https://img.shields.io/badge/Agent%20Teams-Native-green)](https://code.claude.com/docs/en/agent-teams)
-[![Version](https://img.shields.io/badge/Version-1.0.0-orange)](#)
+[![Agent Teams](https://img.shields.io/badge/Agent%20Teams-Experimental-orange)](https://code.claude.com/docs/en/agent-teams)
+[![Version](https://img.shields.io/badge/Version-0.1.0-green)](#)
 [![License](https://img.shields.io/badge/License-MIT-yellow)](./LICENSE)
 
 ---
 
-## Quickstart / 快速开始
-
-Give your Claude Code **Awesome Agent Team** in 30 seconds:
+## TL;DR
 
 ```bash
-# Step 1: Clone the repository
-git clone https://github.com/Mr-Nothing-L/awesome-agent-team.git
-cd awesome-agent-team
+# Linux / macOS / WSL / Git Bash
+curl -fsSL https://raw.githubusercontent.com/Mr-Nothing-L/awesome-agent-team/main/install.sh | bash
 
-# Step 2: Install prebuilt team (zero dependencies!)
-./scripts/install.sh
-
-# Step 3: Restart Claude Code
-claude
-
-# Step 4: Launch your team
-/awesome-agent-team
+# Windows PowerShell
+iwr -useb https://raw.githubusercontent.com/Mr-Nothing-L/awesome-agent-team/main/install.ps1 | iex
 ```
 
-The repo includes a **ready-to-use team** (5 agents + leader with unique names and personalities). No `jq`, no `node`, no waiting for generation.
+Then inside Claude Code:
+
+```
+/plugin marketplace add ~/.claude/marketplaces/awesome-agent-team
+/plugin install awesome-agent-team@awesome-agent-team
+/start-team
+```
+
+The very first time you run `/start-team`, it will flip on `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1` in your settings and ask you to restart Claude Code. After that, every run goes straight to the PM brainstorm.
 
 ---
 
-## Key Difference / 关键区别
+## Why this plugin / 为什么需要这个插件
 
-| | Subagent Simulation (Old) | **Native Agent Teams (This Plugin)** |
+| | Plain subagents | **awesome-agent-team (this plugin)** |
 |---|---|---|
-| **Agent Type** | Disposable `create_subagent` | **Persistent `TeammateTool.spawnTeam`** |
-| **Context** | Shared with parent | **Independent context window per teammate** |
-| **Communication** | None (fire-and-forget) | **P2P `SendMessage` + shared task list** |
-| **Team Roster** | None | **Stored at `~/.claude/teams/`** |
-| **Names/Personality** | Fixed in prompt | **Randomized at install time** |
-| **Display** | Hidden | **Visible via `Shift+Up/Down` or split panes** |
+| Lifecycle / 生命周期 | One-shot, disposable | **Persistent until `TeamDelete`** |
+| Context window / 上下文 | Shared with parent | **Independent per teammate** |
+| Communication / 通信 | Fire-and-forget result | **`SendMessage` P2P + shared `TaskList`** |
+| Role design / 角色设计 | Generic templates | **Generated per-project by the PM** |
+| Identity / 身份 | None | **Random name + distinct persona** |
+| Plan artifact / 方案物料 | None | **`./recruitment-plan.md` + `./.claude/agents/*`** committable |
+
+You get a team that *feels* like a team: each member has a name, a voice, a defined scope, and a way to talk to peers.
 
 ---
 
-## Table of Contents / 目录
+## Requirements / 系统要求
 
-- [Installation / 安装](#installation--安装)
-- [Usage / 使用](#usage--使用)
-- [How It Works / 工作原理](#how-it-works--工作原理)
-- [Available Roles / 可用角色](#available-roles--可用角色)
-- [Architecture / 架构](#architecture--架构)
-- [Customization / 自定义](#customization--自定义)
-- [FAQ / 常见问题](#faq--常见问题)
+- **Claude Code** ≥ v2.1.32 (Agent Teams is an experimental feature)
+- **git** (for cloning; the install scripts also use it)
+- **OS**: Linux, macOS, Windows (PowerShell / Git Bash / WSL all OK)
+- One environment variable: `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1` — **handled automatically** by the plugin's `/start-team` preflight on first run.
 
 ---
 
 ## Installation / 安装
 
-### Method 1: Bash Quick Install (Recommended) / Bash 快速安装（推荐）
+You have four ways to install, ordered from most to least automated.
 
-The repository includes a **prebuilt team** (5 agents + leader). Just copy them into place — no dependencies needed:
+### Method A · Native marketplace add (recommended) / 原生 marketplace 添加（推荐）
 
-```bash
-git clone https://github.com/Mr-Nothing-L/awesome-agent-team.git
-cd awesome-agent-team
-./scripts/install.sh
+The most portable path. Works identically on Linux, macOS, and Windows because Claude Code itself does the git clone.
+
+Open Claude Code, then run:
+
+```
+/plugin marketplace add https://github.com/Mr-Nothing-L/awesome-agent-team
+/plugin install awesome-agent-team@awesome-agent-team
 ```
 
-No `jq`, no `node`, no runtime randomization. The agents are ready immediately.
+Done. Run `/start-team` in any project directory to use it.
 
-### Method 2: npm / Generate a Custom Team / npm 生成自定义团队
-
-If you want a **fresh random team** with custom names/size:
-
-**Global install**:
-```bash
-npm install -g awesome-agent-team
-awesome-agent-team init --auto --team-size 5
-```
-
-**One-time with npx**:
-```bash
-npx awesome-agent-team init --names "Elena,Marcus,Sophie"
-```
-
-### Method 3: Git Clone + npm / Git 克隆 + npm
+### Method B · One-line shell install (Linux / macOS / WSL / Git Bash)
 
 ```bash
-git clone https://github.com/Mr-Nothing-L/awesome-agent-team.git
-cd awesome-agent-team
-npm install
-npm run init
+curl -fsSL https://raw.githubusercontent.com/Mr-Nothing-L/awesome-agent-team/main/install.sh | bash
 ```
 
-### Method 4: Claude Code /plugin / Claude Code 插件命令
+The script:
+1. Verifies `git` is available
+2. Clones the repo to `~/.claude/marketplaces/awesome-agent-team` (creating dirs as needed)
+3. Prints the two slash commands you need to run inside Claude Code
+
+Re-run any time to update — the script `git pull`s if the checkout already exists.
+
+#### Custom install location / 自定义路径
 
 ```bash
-# In Claude Code:
-/plugin marketplace add Mr-Nothing-L/awesome-agent-team-marketplace
-/plugin install awesome-agent-team@awesome-agent-team-marketplace
-
-# Then initialize:
-./scripts/install.sh   # Uses prebuilt agents
-# Or for a custom team:
-npx awesome-agent-team init
+curl -fsSL https://raw.githubusercontent.com/Mr-Nothing-L/awesome-agent-team/main/install.sh \
+  | AWESOME_AGENT_TEAM_DIR=/opt/awesome-agent-team bash
 ```
 
-### Step: Restart Claude Code / 重启 Claude Code
+Or after downloading:
 
 ```bash
-claude
+./install.sh --dir /opt/awesome-agent-team --ref main
 ```
+
+### Method C · One-line PowerShell install (Windows)
+
+Open PowerShell (Windows Terminal / pwsh / `powershell.exe` all work):
+
+```powershell
+iwr -useb https://raw.githubusercontent.com/Mr-Nothing-L/awesome-agent-team/main/install.ps1 | iex
+```
+
+The script clones to `%USERPROFILE%\.claude\marketplaces\awesome-agent-team` and prints the slash commands.
+
+If PowerShell's execution policy blocks the script, run it with:
+
+```powershell
+powershell -ExecutionPolicy Bypass -Command "iwr -useb https://raw.githubusercontent.com/Mr-Nothing-L/awesome-agent-team/main/install.ps1 | iex"
+```
+
+Or download first and call it explicitly:
+
+```powershell
+iwr -useb https://raw.githubusercontent.com/Mr-Nothing-L/awesome-agent-team/main/install.ps1 -OutFile install.ps1
+.\install.ps1 -InstallDir D:\tools\awesome-agent-team
+```
+
+### Method D · Manual git clone (everywhere) / 手动克隆
+
+For anyone who wants to inspect the source first, or who works behind a corporate proxy:
+
+```bash
+# Linux / macOS / WSL / Git Bash
+git clone https://github.com/Mr-Nothing-L/awesome-agent-team ~/.claude/marketplaces/awesome-agent-team
+
+# Windows PowerShell
+git clone https://github.com/Mr-Nothing-L/awesome-agent-team $HOME\.claude\marketplaces\awesome-agent-team
+```
+
+Then in Claude Code:
+
+```
+/plugin marketplace add ~/.claude/marketplaces/awesome-agent-team
+/plugin install awesome-agent-team@awesome-agent-team
+```
+
+### After install / 安装后
+
+On the first `/start-team`, the plugin will check `~/.claude/settings.json` for `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1` and the eight required permission entries (`TeamCreate`, `TeamDelete`, `SendMessage`, `TaskCreate`, `TaskUpdate`, `TaskList`, `TaskGet`, `Agent(*)`). If anything is missing it patches them in and tells you to **exit Claude Code and re-run `claude`**, because env vars are read at process start. Subsequent runs are zero-friction.
 
 ---
 
 ## Usage / 使用
 
-Once installed, type the slash command in Claude Code:
+In any project directory:
 
 ```
-/awesome-agent-team
+/start-team
 ```
 
-Claude will then:
+What happens then, step by step:
 
-1. **Spawn a Visionary Leader** — a persistent agent that asks clarifying questions
-2. **Brainstorm together** — 1-3 rounds of dialogue to fully understand your goal
-3. **Assemble a unique team** — Leader uses `TeammateTool.spawnTeam` to create real teammates
-4. **Execute in parallel** — All teammates work simultaneously via native Agent Teams
-5. **Communicate via SendMessage** — Teammates coordinate directly with each other
-6. **Monitor via TaskList** — Leader tracks progress on the shared task list
-7. **Integrate results** — All outputs merged into a single coherent deliverable
+```
+┌─────────────────────────────────────────────────────────────────┐
+│ Phase 0 — Preflight                                             │
+│   Reads ~/.claude/settings.json, enables Agent Teams if needed. │
+│   If it had to enable anything, STOP and ask you to restart.    │
+└─────────────────────────────────────────────────────────────────┘
+                              │
+                              ▼
+┌─────────────────────────────────────────────────────────────────┐
+│ Phase 1 — PM brainstorm (regular subagent)                      │
+│   A Project Manager subagent asks 2–4 rounds of questions:     │
+│     • Deliverable / 交付物                                       │
+│     • Tech stack & constraints / 技术栈与约束                     │
+│     • Scope & timeline / 范围与时间                              │
+│     • Quality bar / 质量要求                                     │
+│   It then writes:                                                │
+│     • ./recruitment-plan.md      — human-readable plan          │
+│     • ./.claude/agents/*.md      — project-specific roles       │
+└─────────────────────────────────────────────────────────────────┘
+                              │
+                              ▼
+┌─────────────────────────────────────────────────────────────────┐
+│ Phase 2 — Team spawn (TeamCreate)                               │
+│   Main session draws unique names + personas for each role.     │
+│   Calls TeamCreate to spawn the PM + workers as persistent      │
+│   teammates. Each teammate is an independent Claude instance    │
+│   with its own context window.                                  │
+└─────────────────────────────────────────────────────────────────┘
+                              │
+                              ▼
+┌─────────────────────────────────────────────────────────────────┐
+│ Phase 3 — Execution (parallel, P2P)                             │
+│   PM creates initial tasks via TaskCreate (with addBlockedBy    │
+│   for dependencies), briefs each teammate via SendMessage,      │
+│   monitors via TaskList. Teammates message each other directly. │
+│   You can cycle them with Shift+Up/Down and view tasks with     │
+│   Ctrl+T.                                                       │
+└─────────────────────────────────────────────────────────────────┘
+                              │
+                              ▼
+┌─────────────────────────────────────────────────────────────────┐
+│ Phase 4 — Synthesis & cleanup                                   │
+│   PM writes ./team-results.md when work completes.              │
+│   Main session summarizes for you and calls TeamDelete.         │
+│   Plan + role files stay on disk — commit them if you want.     │
+└─────────────────────────────────────────────────────────────────┘
+```
 
-### Keyboard Shortcuts / 键盘快捷键
+### Keyboard / 快捷键
 
 | Key | Action |
-|-----|--------|
-| `Shift + Up/Down` | Cycle between teammates |
-| `Ctrl + T` | View shared task list |
-| `Enter` | View selected teammate's session |
-| `Escape` | Interrupt current teammate |
+|---|---|
+| `Shift + ↑/↓` | Cycle between teammates (in-process mode) |
+| `Ctrl + T` | View the shared task list |
+| `Enter` | Open the focused teammate's session |
+| `Esc` | Interrupt the focused teammate |
 
 ---
 
-## How It Works / 工作原理
-
-This plugin uses Claude Code's **native Agent Teams** (not simulated subagents):
+## What gets created in your project / 工作区产物
 
 ```
-User: /awesome-agent-team
-    │
-    ▼
-┌──────────────────────────────────────────────────────────────┐
-│  Phase 1: Visionary Leader Activation                        │
-│  └─ Agent({agent_name: "visionary-leader"})                  │
-│     Leader brainstorms with user (1-3 rounds)               │
-│     领袖通过 1-3 轮对话理解目标                               │
-└──────────────────────────────────────────────────────────────┘
-    │
-    ▼
-┌──────────────────────────────────────────────────────────────┐
-│  Phase 2: Goal Decomposition                                 │
-│  └─ Leader breaks mission into parallel subtasks             │
-│     领袖将目标拆解为可并行子任务                               │
-└──────────────────────────────────────────────────────────────┘
-    │
-    ▼
-┌──────────────────────────────────────────────────────────────┐
-│  Phase 3: Team Spawn (TeammateTool.spawnTeam) ⭐ NATIVE       │
-│  └─ TeammateTool({ action: "spawnTeam", ... })               │
-│     Each teammate = REAL independent Claude Code instance    │
-│     每个队友 = 真正的独立 Claude Code 实例                     │
-└──────────────────────────────────────────────────────────────┘
-    │
-    ▼
-┌──────────────────────────────────────────────────────────────┐
-│  Phase 4: Task Assignment (TaskCreate) ⭐ NATIVE             │
-│  └─ TaskCreate({ teamName: "awesome-agent-team", ... })      │
-│     Shared task list with pending/in-progress/completed      │
-│     共享任务列表，支持依赖关系                                 │
-└──────────────────────────────────────────────────────────────┘
-    │
-    ▼
-┌──────────────────────────────────────────────────────────────┐
-│  Phase 5: Parallel Execution ⭐ NATIVE                       │
-│  └─ All teammates run in parallel                            │
-│     P2P messaging via SendMessage                            │
-│     所有队友并行执行，通过 SendMessage 直接通信                │
-└──────────────────────────────────────────────────────────────┘
-    │
-    ▼
-┌──────────────────────────────────────────────────────────────┐
-│  Phase 6: Result Integration                                 │
-│  └─ TaskList → collect results → synthesize                  │
-│     TeammateTool.cleanup to shut down team                   │
-│     整合所有结果，清理团队资源                                 │
-└──────────────────────────────────────────────────────────────┘
+your-project/
+├── recruitment-plan.md      # PM's plan (commit this for future runs)
+├── team-results.md          # Final synthesis (after team disbands)
+└── .claude/
+    └── agents/              # PM-generated project-scope agents
+        ├── frontend-react-tailwind.md
+        ├── backend-fastapi-postgres.md
+        └── qa-playwright.md
 ```
 
----
-
-## Available Roles / 可用角色
-
-| Role | Description |
-|------|-------------|
-| `visionary-leader` | Team orchestrator, brainstorms goals, coordinates work |
-| `architect` | System architecture, trade-off analysis |
-| `frontend-dev` | UI/UX implementation, client-side logic |
-| `backend-dev` | APIs, business logic, data models |
-| `designer` | Visual design, user flows, design systems |
-| `writer` | Documentation, UI copy, technical content |
-| `researcher` | Technology research, competitive analysis |
-| `qa-tester` | Test strategy, test cases, quality assurance |
-| `security-reviewer` | Security audit, vulnerability assessment |
-| `devops-engineer` | CI/CD, infrastructure, deployment |
-| `data-analyst` | Data analysis, visualizations, insights |
-| `product-manager` | Requirements, prioritization, user value |
-| `code-reviewer` | Code quality, correctness, maintainability |
+These are normal files. Commit them and future `/start-team` runs in the same repo will start from a richer baseline.
 
 ---
 
@@ -228,149 +238,123 @@ User: /awesome-agent-team
 
 ```
 awesome-agent-team/
-├── .claude-plugin/              # Plugin manifest
-│   ├── plugin.json              # Plugin metadata
+├── .claude-plugin/
+│   ├── plugin.json              # Plugin manifest
 │   └── marketplace.json         # Marketplace listing
-├── agents/                      # Agent role templates
-│   ├── visionary-leader.md      # Leader template ({{NAME}}, {{PERSONALITY}})
-│   ├── architect.md
-│   ├── frontend-dev.md
-│   ├── backend-dev.md
-│   ├── designer.md
-│   ├── writer.md
-│   ├── researcher.md
-│   ├── qa-tester.md
-│   ├── security-reviewer.md
-│   ├── devops-engineer.md
-│   ├── data-analyst.md
-│   ├── product-manager.md
-│   └── code-reviewer.md
 ├── commands/
-│   └── awesome-agent-team.md    # /awesome-agent-team command
-├── skills/
-│   └── awesome-agent-team/
-│       ├── SKILL.md             # Skill definition
-│       └── references/
-│           ├── agent-names.md   # Human-readable name reference
-│           └── agent-personas.md # Human-readable persona reference
-├── assets/
-│   ├── names.json               # 400+ names (machine-readable)
-│   └── personas.json            # 20 personas (machine-readable)
-├── scripts/
-│   └── install.sh               # Install script (randomizes team)
-├── settings.json                # Recommended settings template
-├── README.md
-└── LICENSE
-```
-
-### What Gets Installed / 安装到哪里
-
-After running `./scripts/install.sh`, these files are created in your Claude Code config:
-
-```
-~/.claude/
+│   └── start-team.md            # /start-team slash command (4 phases incl. preflight)
 ├── agents/
-│   ├── aat-visionary-leader.md  # Personalized leader agent
-│   ├── aat-frontend-dev.md      # Personalized frontend agent
-│   ├── aat-backend-dev.md       # Personalized backend agent
-│   └── ... (one per team member)
-├── teams/
-│   └── awesome-agent-team/
-│       └── config.json          # Team roster (names, roles, IDs)
-└── settings.json               # Updated with Agent Teams enabled
+│   └── pm.md                    # PM subagent (Phase 1 brainstorm + Phase 2 teammate)
+├── skills/
+│   └── team-workflow/
+│       ├── SKILL.md             # Full protocol + spawn-prompt template
+│       └── references/
+│           ├── names.json       # ~350 English first names
+│           ├── personas.json    # 20 distinct personas
+│           └── role-templates/  # Inspiration for the PM (not stamped verbatim)
+│               ├── frontend-dev.md
+│               ├── backend-dev.md
+│               ├── designer.md
+│               ├── qa-tester.md
+│               ├── architect.md
+│               ├── writer.md
+│               └── researcher.md
+├── install.sh                   # Linux / macOS / WSL / Git Bash
+├── install.ps1                  # Windows PowerShell
+├── LICENSE
+└── README.md
 ```
+
+### Tools used / 使用的官方工具
+
+All real, native Claude Code tools (no fabrication):
+
+| Tool | Purpose |
+|---|---|
+| `Agent` | Spawn the PM as a regular subagent in Phase 1 |
+| `TeamCreate` | Spawn the persistent team in Phase 2 |
+| `SendMessage` | Direct P2P messaging between teammates |
+| `TaskCreate` / `TaskUpdate` / `TaskList` / `TaskGet` | Shared task list |
+| `TeamDelete` | Disband the team in Phase 4 |
 
 ---
 
 ## Customization / 自定义
 
-### Add New Names / 添加新名字
+### Add your own names / 增加名字
 
-Edit `assets/names.json` and add to `male` or `female` arrays. Re-run `install.sh`.
+Edit `skills/team-workflow/references/names.json`. Names are drawn uniformly at random; just append to the `male` or `female` arrays.
 
-### Add New Personalities / 添加新性格
+### Add your own personas / 增加性格
 
-Edit `assets/personas.json` and add to `personas` array. Re-run `install.sh`.
+Edit `skills/team-workflow/references/personas.json`. Required keys per entry: `name`, `personality`, `speaking_style`, `traits`, `emoji`. Personas are drawn without replacement per team, so more variety = fewer collisions.
 
-### Add New Agent Roles / 添加新角色
+### Add a role template / 增加角色模板
 
-1. Create a new `.md` file in `agents/` following the template:
+Drop a `<role>.md` into `skills/team-workflow/references/role-templates/`. The PM reads this directory during Phase 1 for inspiration; it does NOT use templates verbatim. Each template should describe scope, working principles, and handoffs — the PM will customize tech-specific details.
 
-```markdown
----
-name: your-role-name
-description: What this role does
-model: sonnet
----
+### Use specific names / 指定特定名字
 
-<Agent_Prompt>
-You are {{NAME}}, a [Role] on the Awesome Agent Team. {{PERSONALITY}}
-...
-</Agent_Prompt>
+When invoking `/start-team`, mention names in your request:
+
+```
+/start-team I'm building a Rust CLI. Please call the backend dev Maya and the QA Marcus.
 ```
 
-2. Re-run `install.sh`
+The main session honors these and removes them from the random pool.
 
 ---
 
-## FAQ / 常见问题
+## Troubleshooting / 常见问题
 
-**Q: Is this using real Agent Teams or simulated subagents?**
+**Q: `/start-team` errors with "Agent Teams not enabled".**
+A: The preflight should have prompted you to restart Claude Code. Exit the process completely (the env var is read at startup) and re-run `claude`.
 
-A: **Real Agent Teams.** This plugin uses Claude Code's native `TeammateTool.spawnTeam`, `TaskCreate`, `SendMessage`, and `TaskList` — not `create_subagent` + `task`. Each teammate is a real, independent Claude Code instance.
+**Q: PowerShell refuses to run `install.ps1`.**
+A: Your execution policy is restricted. Run with `-ExecutionPolicy Bypass` (see [Method C](#method-c--one-line-powershell-install-windows)) — this only affects the single invocation.
 
-**Q: 这是真正的 Agent Team 还是模拟的 subagent？**
+**Q: The PM generated only a single worker.**
+A: Either the project is small enough that one worker is appropriate, or your spec was too narrow. Re-run `/start-team` with more context, or edit `./.claude/agents/` directly.
 
-A: **真正的 Agent Team。** 本插件使用 Claude Code 原生的 `TeammateTool.spawnTeam`、`TaskCreate`、`SendMessage` 和 `TaskList` — 不是 `create_subagent` + `task`。每个 teammate 都是真正的独立 Claude Code 实例。
+**Q: Can I commit the generated `.claude/agents/` files?**
+A: Yes — they're project-scope, deterministic per project, and meant to be versioned. Personas/names are NOT in those files; they're injected fresh at every `TeamCreate`.
 
-**Q: How do I enable Agent Teams?**
+**Q: How do I shut down the team early?**
+A: Ask the main session to call `TeamDelete`, or use `/plugin` UI commands. Either way, the conversations and `team-results.md` (if any) remain on disk.
 
-A: Add `"CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"` to `~/.claude/settings.json` under the `env` key. See [Installation](#installation--安装).
+**Q: Does the plugin survive Claude Code session restarts?**
+A: The plugin install survives — your `/start-team` command stays available. The *running team* does not survive: Agent Teams do not currently resume across Claude Code restarts. Re-run `/start-team` to rebuild from `recruitment-plan.md`.
 
-**Q: 如何启用 Agent Teams？**
+---
 
-A: 在 `~/.claude/settings.json` 的 `env` 下添加 `"CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"`。参见 [安装](#installation--安装)。
+## Uninstall / 卸载
 
-**Q: Can I re-run install.sh for a different team?**
+```
+# Inside Claude Code
+/plugin uninstall awesome-agent-team@awesome-agent-team
+/plugin marketplace remove awesome-agent-team
+```
 
-A: Yes! Each run produces a new randomized team. Your previous agent files will be overwritten.
+Then delete the cloned repo:
 
-**Q: 可以重新运行 install.sh 生成不同的团队吗？**
+```bash
+# Linux / macOS / WSL / Git Bash
+rm -rf ~/.claude/marketplaces/awesome-agent-team
 
-A: 可以！每次运行都会产生一个新的随机团队。之前的 agent 文件会被覆盖。
+# Windows PowerShell
+Remove-Item -Recurse -Force $HOME\.claude\marketplaces\awesome-agent-team
+```
 
-**Q: How many teammates can I have?**
-
-A: Claude Code supports 2-16 teammates. We recommend 3-7 for optimal balance.
-
-**Q: 可以有多少个 teammate？**
-
-A: Claude Code 支持 2-16 个 teammate。建议 3-7 个以获得最佳平衡。
-
-**Q: Can teammates talk to each other?**
-
-A: Yes! Teammates use `SendMessage` for direct P2P communication and `broadcast` for team-wide messages. They also share a task list via `TaskCreate`/`TaskList`.
-
-**Q: Teammate 之间可以互相通信吗？**
-
-A: 可以！Teammate 使用 `SendMessage` 进行直接的 P2P 通信，使用 `broadcast` 进行团队广播。它们还通过 `TaskCreate`/`TaskList` 共享任务列表。
-
-**Q: Will my teammates persist across sessions?**
-
-A: No — Agent Teams do not currently support session resumption. You need to re-run `/awesome-agent-team` for each new session.
-
-**Q: Teammate 会跨会话持久化吗？**
-
-A: 不会 — Agent Teams 目前不支持会话恢复。每个新会话都需要重新运行 `/awesome-agent-team`。
+Your project artifacts (`recruitment-plan.md`, `team-results.md`, `./.claude/agents/`) are left alone — delete them manually if you want.
 
 ---
 
 ## License / 许可证
 
-MIT License. See [LICENSE](./LICENSE) for details.
+MIT — see [LICENSE](./LICENSE).
 
 ---
 
 <p align="center">
-  Built for Claude Code's native Agent Teams | 为 Claude Code 原生 Agent Teams 打造
+  Built on Claude Code's native Agent Teams · 基于 Claude Code 原生 Agent Teams 打造
 </p>
