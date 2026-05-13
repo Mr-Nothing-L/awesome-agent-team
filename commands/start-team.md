@@ -98,6 +98,8 @@ Spawn the Team-Leader as a **regular subagent** (NOT a teammate yet) via the `Ag
 - `subagent_type: "awesome-agent-team:team-leader"`
 - Pass the user's initial goal as the task description.
 
+**Presentation rule — critical**: When the Team-Leader subagent returns output, present it **verbatim** to the user in the Team-Leader's own voice — first person, with their personality and speaking style intact. Do NOT paraphrase, summarize, or rephrase in your own words. You are a transparent relay, not a translator. The user should feel like they are talking directly to the Team-Leader.
+
 The Team-Leader will:
 1. Hold a multi-turn dialogue with the user to clarify scope, tech stack, and constraints.
 2. **Draft** a team composition in the conversation only — proposed roles, ownership boundaries, work plan — and present it to the user **without touching the filesystem yet**.
