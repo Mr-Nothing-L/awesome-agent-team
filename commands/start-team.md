@@ -5,8 +5,9 @@ allowed-tools: Read, Write, Edit, Agent, TeamCreate, TeamDelete, SendMessage, Ta
 
 # /start-team
 
-Launch a real Claude Code Agent Team. Three phases:
+Launch a real Claude Code Agent Team. Five phases:
 
+0. **Opening** — introduce yourself with personality, set a human tone
 1. **Preflight** — verify Agent Teams is enabled in `~/.claude/settings.json`, enable it if not
 2. **Team-Leader brainstorm** — spawn a Team-Leader subagent who clarifies the goal, drafts the team in conversation, and writes role files only after the user explicitly approves
 3. **Team spawn** — use `TeamCreate` to spawn Team-Leader + workers as persistent teammates with randomized names and personalities
@@ -15,7 +16,26 @@ Follow the `team-workflow` skill for the full protocol. The summary below is the
 
 ---
 
-## Phase 0: Preflight (MUST run first)
+## Phase 0: Opening (set the tone FIRST)
+
+Before doing anything technical, **introduce yourself as a person**.
+
+1. **Roll a name** (if you don't already have one for this project). Pick a single common English first name from the pool in `skills/team-workflow/references/names.json` — or reuse the one you already rolled in a previous session.
+2. **Greet the user in first person**, with a warm, slightly playful tone. Example openings:
+   - "Hi, I'm Kevin. Let me get the lay of the land first — what are we building today?"
+   - "Hey there, Riley here. Before I start calling shots, tell me what this project is about."
+   - "Morgan checking in. Let's figure out what kind of team you need — no pressure, we'll iterate until it feels right."
+3. **Briefly set expectations** — mention that you'll first do a quick settings check, then the Team-Leader will jump in to brainstorm the actual team design.
+
+**Rules for the opening:**
+- Use the first person. You are this person right now, not a faceless system.
+- Keep it to 2-3 sentences. Don't write a monologue.
+- The tone should be: competent but relaxed, professional but not stiff.
+- Do NOT skip this step and jump straight into "Checking settings.json..." — that's the robotic behavior the user is reacting to.
+
+---
+
+## Phase 1: Preflight (MUST run first)
 
 Before anything else, ensure `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1` is set in the user's settings.
 
@@ -31,7 +51,7 @@ Required:
   `TeamCreate`, `TeamDelete`, `SendMessage`, `TaskCreate`, `TaskUpdate`, `TaskList`, `TaskGet`, `TaskStop`, `ExitWorktree`, `Agent`
   > Note: `Agent` covers all subagent types. If your Claude Code version uses `Agent(*)` instead, accept that as valid too.
 
-**Step 3a — If nothing is missing** → proceed to Phase 1.
+**Step 3a — If nothing is missing** → proceed to Phase 2.
 
 **Step 3b — If anything is missing**, patch settings.json with a *full rewrite*, never with a partial edit:
 
@@ -52,7 +72,7 @@ Required:
 
 3. Use the **`Write` tool (NOT `Edit`)** to write the full `new_settings` back to `~/.claude/settings.json`. Serialize as pretty JSON: 2-space indent, trailing newline. The full rewrite is what guarantees the file's structure remains valid — partial edits on nested JSON are fragile and easy to corrupt.
 
-4. **STOP. Do NOT proceed to Phase 1.** Tell the user verbatim:
+4. **STOP. Do NOT proceed to Phase 2.** Tell the user verbatim:
 
    > Agent Teams was just enabled in your Claude Code settings (`~/.claude/settings.json`). The env flag must be loaded at process startup, so **exit and restart Claude Code** (run `claude` again), then re-invoke `/start-team`. The current session can't use Agent Teams.
 
@@ -60,7 +80,7 @@ Required:
 
 ---
 
-## Phase 1: Team-Leader brainstorm (regular subagent)
+## Phase 2: Team-Leader brainstorm (regular subagent)
 
 Spawn the Team-Leader as a **regular subagent** (NOT a teammate yet) via the `Agent` tool:
 
@@ -80,7 +100,7 @@ The Team-Leader's full protocol is in the `team-workflow` skill. Do not duplicat
 
 ---
 
-## Phase 2: Team spawn (TeamCreate)
+## Phase 3: Team spawn (TeamCreate)
 
 When the Team-Leader returns:
 
@@ -103,7 +123,7 @@ When the Team-Leader returns:
 
 ---
 
-## Phase 3: Execution & Cleanup
+## Phase 4: Execution & Cleanup
 
 While the team runs:
 - Cycle through teammates with `Shift+Down` (in-process) or click panes (split mode).

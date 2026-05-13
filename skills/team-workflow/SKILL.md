@@ -7,20 +7,35 @@ description: Orchestrate a persistent Agent Team via /start-team — brainstorm 
 
 This skill is the source of truth for the `/start-team` command. The command file is a thin entry point; the protocol below is what you actually follow.
 
-> **Prerequisite**: Claude Code with `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1` set in `~/.claude/settings.json`. The command's Phase 0 preflight auto-enables it but requires the user to restart Claude Code afterwards (env vars are read at process start).
+> **Prerequisite**: Claude Code with `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1` set in `~/.claude/settings.json`. The command's Phase 1 preflight auto-enables it but requires the user to restart Claude Code afterwards (env vars are read at process start).
 
-## The four phases
+## The five phases
 
 | Phase | Actor | Output |
 |---|---|---|
-| 0. Preflight | Main session | Verified/enabled feature flag + permissions |
-| 1. Brainstorm | Team-Leader as regular subagent (with user sign-off gate) | `./recruitment-plan.md` + `./.claude/agents/<role>.md` files |
-| 2. Team spawn | Main session | Persistent team via `TeamCreate` |
-| 3. Execution & cleanup | Team-Leader-as-teammate + workers | `./team-results.md` + `TeamDelete` when done |
+| 0. Opening | Main session | A warm human greeting + rolled Team-Leader name |
+| 1. Preflight | Main session | Verified/enabled feature flag + permissions |
+| 2. Brainstorm | Team-Leader as regular subagent (with user sign-off gate) | `./recruitment-plan.md` + `./.claude/agents/<role>.md` files |
+| 3. Team spawn | Main session | Persistent team via `TeamCreate` |
+| 4. Execution & cleanup | Team-Leader-as-teammate + workers | `./team-results.md` + `TeamDelete` when done |
 
 ---
 
-## Phase 0 — Preflight
+## Phase 0 — Opening
+
+Before any technical step, the main session **introduces itself as a person**.
+
+1. **Roll a name** for the Team-Leader from `references/names.json` (or reuse a previously rolled one for this project).
+2. **Greet the user in first person**, with a warm, slightly playful tone — 2-3 sentences max. Example: *"Hi, I'm Kevin. Let me get the lay of the land first — what are we building today?"*
+3. **Set expectations** — mention a quick settings check is next, then the Team-Leader will jump in to brainstorm the actual team design.
+
+Rules: first person only; competent but relaxed; do NOT skip straight to "Checking settings.json...".
+
+Then proceed to Phase 1 (Preflight).
+
+---
+
+## Phase 1 — Preflight
 
 Handled inside the `/start-team` command. Summary:
 
@@ -31,7 +46,7 @@ Handled inside the `/start-team` command. Summary:
 
 ---
 
-## Phase 1 — Team-Leader brainstorm (regular subagent)
+## Phase 2 — Team-Leader brainstorm (regular subagent)
 
 Spawn the Team-Leader as a regular subagent (NOT a teammate yet):
 
@@ -59,7 +74,7 @@ The Team-Leader's behaviour is fully defined in `agents/pm.md`. In summary they 
 
 ---
 
-## Phase 2 — Team spawn (TeamCreate)
+## Phase 3 — Team spawn (TeamCreate)
 
 When the Team-Leader returns to the main session:
 
@@ -165,7 +180,7 @@ Then return to the user with a short status: team name, roster, and what they ca
 
 ---
 
-## Phase 3 — Execution & cleanup
+## Phase 4 — Execution & cleanup
 
 While the team runs:
 - The user can cycle teammates with `Shift+Up/Down` (in-process) or pane-click (split mode).
