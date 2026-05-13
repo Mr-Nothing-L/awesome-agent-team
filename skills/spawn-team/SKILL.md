@@ -9,6 +9,8 @@ description: |
 
 # spawn-team
 
+> **Language matching**: detect the language the user is writing in and respond in the same language. If the user writes in Chinese, reply in Chinese. If English, reply in English. Do not mix languages unless the user does.
+
 Turn a recruitment plan into a live, persistent Agent Team.
 
 ## When to use this skill

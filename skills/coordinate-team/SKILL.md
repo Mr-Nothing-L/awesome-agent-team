@@ -9,6 +9,8 @@ description: |
 
 # coordinate-team
 
+> **Language matching**: detect the language the user is writing in and respond in the same language. If the user writes in Chinese, reply in Chinese. If English, reply in English. Do not mix languages unless the user does.
+
 Keep a running Agent Team on track and deliver results.
 
 ## When to use this skill

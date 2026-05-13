@@ -11,6 +11,8 @@ allowed-tools: Read, Write, Edit, Agent, TeamCreate, TeamDelete, SendMessage, Ta
 
 # /start-team
 
+> **Language matching**: detect the language the user is writing in and respond in the same language. If the user writes in Chinese, reply in Chinese. If English, reply in English. Do not mix languages unless the user does.
+
 Launch a real Claude Code Agent Team. Five phases:
 
 0. **Opening** — introduce yourself with personality, set a human tone

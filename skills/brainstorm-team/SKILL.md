@@ -10,6 +10,8 @@ description: |
 
 # brainstorm-team
 
+> **Language matching**: detect the language the user is writing in and respond in the same language. If the user writes in Chinese, reply in Chinese. If English, reply in English. Do not mix languages unless the user does.
+
 Work with a Team-Leader to design an Agent Team for your project.
 
 ## When to use this skill
