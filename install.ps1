@@ -35,6 +35,14 @@ function Test-Git {
 function Invoke-CloneOrUpdate {
     if (Test-Path (Join-Path $InstallDir '.git')) {
         Write-Warn2 "Updating existing checkout at $InstallDir…"
+        # Stash any local modifications so a re-run never silently destroys user edits.
+        $status = git -C $InstallDir status --porcelain
+        if ($status) {
+            $stashMsg = "auto-stash before installer reset $(Get-Date -Format 'yyyy-MM-ddTHH:mm:ssZ')"
+            Write-Warn2 "Local modifications detected — stashing as: $stashMsg"
+            git -C $InstallDir stash push --include-untracked --message $stashMsg | Out-Null
+            Write-Warn2 "  Recover with: git -C `"$InstallDir`" stash list / stash pop"
+        }
         git -C $InstallDir fetch --quiet origin $RepoRef
         git -C $InstallDir checkout --quiet $RepoRef
         git -C $InstallDir reset --hard --quiet "origin/$RepoRef"

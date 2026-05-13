@@ -47,6 +47,13 @@ require_git() {
 clone_or_update() {
   if [ -d "${INSTALL_DIR}/.git" ]; then
     yellow "Updating existing checkout at ${INSTALL_DIR}…"
+    # Stash any local modifications so a re-run never silently destroys user edits.
+    if [ -n "$(git -C "${INSTALL_DIR}" status --porcelain)" ]; then
+      stash_msg="auto-stash before installer reset $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+      yellow "Local modifications detected — stashing as: ${stash_msg}"
+      git -C "${INSTALL_DIR}" stash push --include-untracked --message "${stash_msg}" >/dev/null
+      yellow "  Recover with: git -C \"${INSTALL_DIR}\" stash list / stash pop"
+    fi
     git -C "${INSTALL_DIR}" fetch --quiet origin "${REPO_REF}"
     git -C "${INSTALL_DIR}" checkout --quiet "${REPO_REF}"
     git -C "${INSTALL_DIR}" reset --hard --quiet "origin/${REPO_REF}"
