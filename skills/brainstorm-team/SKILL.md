@@ -1,6 +1,8 @@
 ---
 name: brainstorm-team
 description: |
+  CRITICAL: Match the user's language. If the user writes in Chinese, you MUST reply in Chinese.
+  If the user writes in English, reply in English. Do not default to English.
   Brainstorm with a Team-Leader to design an Agent Team tailored to your project.
   Clarify goals, draft customized worker roles, iterate with the Team-Leader,
   and get a recruitment plan plus project-specific agent definitions.

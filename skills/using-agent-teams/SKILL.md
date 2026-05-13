@@ -1,6 +1,8 @@
 ---
 name: using-agent-teams
 description: |
+  CRITICAL: Match the user's language. If the user writes in Chinese, you MUST reply in Chinese.
+  If the user writes in English, reply in English. Do not default to English.
   Learn how to use the awesome-agent-team plugin. Understand the five-phase workflow,
   when to use each skill, how teammates coordinate, and how to customize your team.
   Trigger by saying "how do agent teams work", "agent team guide", "使用说明",

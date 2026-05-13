@@ -1,6 +1,8 @@
 ---
 name: spawn-team
 description: |
+  CRITICAL: Match the user's language. If the user writes in Chinese, you MUST reply in Chinese.
+  If the user writes in English, reply in English. Do not default to English.
   Spawn a persistent Agent Team via TeamCreate. Draw randomized names and personas
   for each teammate, inject them into spawn prompts, and kick off coordination.
   Trigger by saying "spawn my team", "create the team", "deploy agents",

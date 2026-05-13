@@ -1,6 +1,8 @@
 ---
 name: coordinate-team
 description: |
+  CRITICAL: Match the user's language. If the user writes in Chinese, you MUST reply in Chinese.
+  If the user writes in English, reply in English. Do not default to English.
   Coordinate a running Agent Team. Monitor tasks, nudge stuck teammates,
   resolve blockers, and synthesize results when work completes.
   Trigger by saying "coordinate my team", "check team progress", "team status",
