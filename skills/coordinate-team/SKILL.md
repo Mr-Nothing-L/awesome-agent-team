@@ -1,7 +1,6 @@
 ---
 name: coordinate-team
 description: |
-  Match the user's language. If the user writes in Chinese, reply in Chinese.
   Coordinate a running Agent Team. Monitor tasks, nudge stuck teammates,
   resolve blockers, and synthesize results when work completes.
   Trigger by saying "coordinate my team", "check team progress", "team status",
