@@ -37,7 +37,7 @@ Turn a recruitment plan into a live, persistent Agent Team.
 ## Step 1. Confirm composition
 
 1. Read `./recruitment-plan.md`.
-2. Verify each role in the team-composition table has a matching `./.claude/agents/<slug>.md` file. If anything is missing, fix or ask the Team-Leader to re-run.
+2. Verify each role in the team-composition table has a matching `./.claude/agents/<slug>.md` file. If any role file is missing, do NOT try to write it inline — re-spawn the Team-Leader via `Agent({ subagent_type: "awesome-agent-team:team-leader", description: "Generate missing agent files", prompt: "<list of missing slugs>, recruitment-plan.md already exists at repo root" })` and let it regenerate the files. Only proceed to Step 2 once all files exist.
 3. **Validate each role file**:
    - Must have YAML frontmatter delimited by `---` at start and end.
    - Must contain `name` and `description` keys.
