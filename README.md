@@ -100,11 +100,11 @@ Each phase of the workflow is also available as an independent skill. You can in
 
 | Skill | Trigger keywords | What it does |
 |---|---|---|
-| `start-team` | `/start-team`, "start a team", "create a team", "agent cluster", "agent集群" | Full five-phase workflow entry point |
-| `brainstorm-team` | "brainstorm a team", "design my team", "plan team roles", "帮我设计团队" | Team-Leader chats with you, designs roles, you approve |
-| `spawn-team` | "spawn my team", "deploy agents", "启动团队", "生成队友" | Draw names/personas, `TeamCreate`, kickoff |
-| `coordinate-team` | "check team progress", "monitor tasks", "团队进度", "催促队友" | Monitor, nudge, summarize, `TeamDelete` |
-| `using-agent-teams` | "how do agent teams work", "使用说明", "插件怎么用" | Guide, quality bar, role templates reference |
+| `start-team` | `/start-team`, "start a team", "create a team", "agent cluster" | Full five-phase workflow entry point |
+| `brainstorm-team` | "brainstorm a team", "design my team", "plan team roles" | Team-Leader chats with you, designs roles, you approve |
+| `spawn-team` | "spawn my team", "deploy agents", "assemble teammates" | Draw names and personas, `TeamCreate`, kickoff |
+| `coordinate-team` | "check team progress", "monitor tasks", "nudge teammates" | Monitor, nudge, summarize, `TeamDelete` |
+| `using-agent-teams` | "how do agent teams work", "agent team guide" | Guide, quality bar, role templates reference |
 
 The `/start-team` command orchestrates `brainstorm-team` → `spawn-team` → `coordinate-team` automatically. Use individual skills when you want to jump to a specific phase (e.g. you already have a `recruitment-plan.md` from a previous run and just want to re-spawn).
 
