@@ -93,11 +93,6 @@ These are **inspiration**, not stamping templates. The Team-Leader reads them wh
 
 ## Platform notes
 
-The plugin is built for Claude Code. Some tool names differ on other platforms:
+**This plugin is Claude Code only.** It depends on Claude Code's native Agent Teams primitives — `TeamCreate`, `SendMessage`, the shared `TaskList`, and the persistent-teammate runtime. These do not have stable equivalents on Copilot CLI, Codex, or Gemini CLI today, so the plugin will not work there even if the slash command surface looks similar.
 
-| Claude Code | Copilot CLI | Codex | Gemini CLI |
-|---|---|---|---|
-| `Agent` | `agent` | `@` mention | `subagent` |
-| `SendMessage` | `send_message` | `send` | `message` |
-| `TaskCreate` | `task_create` | `task` | `create_task` |
-| `TeamCreate` | `team_create` | — | `create_team` |
+If a future Claude Code release ports Agent Teams to other surfaces, this section should be re-written with verified tool mappings.
