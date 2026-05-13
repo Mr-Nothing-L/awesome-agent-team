@@ -140,7 +140,11 @@ When the Team-Leader returns:
      - **Fallback**: if the agentType cannot be resolved, embed the full role definition (frontmatter + body) into the `spawnPrompt` and use a generic `agentType` like `general-purpose`.
    - **Also include the Team-Leader** as a teammate (so the user can talk to them during execution)
    - Each spawn prompt must follow the template in `spawn-team` skill (name, persona, speaking style, role file reference, coordination instructions)
-7. After spawn, brief the team via `SendMessage` to the Team-Leader teammate, telling them to read `./recruitment-plan.md` and start coordinating.
+7. **If `TeamCreate` returns an error:** surface the error verbatim to the user. Do NOT call `SendMessage` against a half-created team — if the call failed, no teammates exist to receive the kickoff and the message will error too. Common failure modes:
+   - "Agent Teams not enabled" → user didn't restart after Phase 1's settings change; ask them to restart and re-run.
+   - "Agent type not found: <slug>" → an `.claude/agents/<slug>.md` is missing or malformed; rerun the spawn-team validation (Step 2-3) and fix before retrying.
+   - "Name conflict" → a team with the same `teamName` already exists; ask the user whether to `TeamDelete` it first or pick a different slug.
+8. After a **successful** spawn, brief the team via `SendMessage` to the Team-Leader teammate, telling them to read `./recruitment-plan.md` and start coordinating.
 
 ---
 
