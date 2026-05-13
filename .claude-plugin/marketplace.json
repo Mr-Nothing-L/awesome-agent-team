@@ -9,7 +9,7 @@
   "plugins": [
     {
       "name": "awesome-agent-team",
-      "description": "Slash command /start-team that orchestrates the full PM-led team workflow on top of Claude Code's experimental Agent Teams (TeamCreate / SendMessage / shared TaskList).",
+      "description": "Slash command /start-team that orchestrates the full Team-Leader-led team workflow on top of Claude Code's experimental Agent Teams (TeamCreate / SendMessage / shared TaskList).",
       "version": "0.1.0",
       "author": {
         "name": "Mr-Nothing-L"
@@ -22,7 +22,7 @@
         "agent-teams",
         "multi-agent",
         "orchestration",
-        "project-manager",
+        "team-leader",
         "personality"
       ]
     }

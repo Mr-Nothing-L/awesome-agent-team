@@ -1,7 +1,7 @@
 {
   "name": "awesome-agent-team",
   "version": "0.1.0",
-  "description": "Spawn a real Claude Code Agent Team. A PM brainstorms your goal, generates project-specific worker roles, then assembles persistent teammates via TeamCreate with randomized names and personalities.",
+  "description": "Spawn a real Claude Code Agent Team. A Team-Leader brainstorms your goal, generates project-specific worker roles, then assembles persistent teammates via TeamCreate with randomized names and personalities.",
   "author": {
     "name": "Mr-Nothing-L"
   },
@@ -11,7 +11,7 @@
     "agent-teams",
     "multi-agent",
     "orchestration",
-    "project-manager",
+    "team-leader",
     "personality"
   ],
   "skills": ["./skills/team-workflow/"],
