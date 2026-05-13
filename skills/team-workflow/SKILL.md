@@ -14,7 +14,7 @@ This skill is the source of truth for the `/start-team` command. The command fil
 | Phase | Actor | Output |
 |---|---|---|
 | 0. Preflight | Main session | Verified/enabled feature flag + permissions |
-| 1. Brainstorm | Team-Leader as regular subagent | `./recruitment-plan.md` + `./.claude/agents/<role>.md` files |
+| 1. Brainstorm | Team-Leader as regular subagent (with user sign-off gate) | `./recruitment-plan.md` + `./.claude/agents/<role>.md` files |
 | 2. Team spawn | Main session | Persistent team via `TeamCreate` |
 | 3. Execution & cleanup | Team-Leader-as-teammate + workers | `./team-results.md` + `TeamDelete` when done |
 
@@ -27,7 +27,7 @@ Handled inside the `/start-team` command. Summary:
 - Read `~/.claude/settings.json` (treat missing file as `{}`).
 - Required: `env.CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS === "1"` and these permissions in `permissions.allow`: `TeamCreate`, `TeamDelete`, `SendMessage`, `TaskCreate`, `TaskUpdate`, `TaskList`, `TaskGet`, `TaskStop`, `ExitWorktree`, `Agent`.
   > Note: `Agent` covers all subagent types. If your Claude Code version uses `Agent(*)` instead, accept that as valid too.
-- If anything is missing, patch the file (preserving every other key) and STOP. Tell the user to restart Claude Code. Don't proceed.
+- If anything is missing, patch the file via a *full `Write`-tool rewrite* (never partial `Edit` on nested JSON), preserving every other key. Show the user a one-paragraph diff before writing. Then STOP and tell the user to restart Claude Code. Don't proceed.
 
 ---
 
@@ -46,14 +46,16 @@ Agent({
 The Team-Leader's behaviour is fully defined in `agents/pm.md`. In summary they will:
 
 1. Ask 2-4 rounds of clarifying questions (Mission, Stack, Scope, Quality).
-2. Pick 2-5 roles, customized to the project (e.g., `frontend-react-tailwind` rather than `frontend-dev`).
-3. Read `references/role-templates/*.md` for inspiration only — never copy a template verbatim.
-4. Write `./recruitment-plan.md` (human-readable) and `./.claude/agents/<role-slug>.md` for each worker role.
+2. **Draft** 2-5 candidate roles, customized to the project (e.g., `frontend-react-tailwind` rather than `frontend-dev`), and present the draft to the user **in the conversation only** — no files on disk yet.
+3. **Iterate with the user** until they sign off — accepting modifications, additions ("also add a `reviewer-security`"), and removals. Reads `references/role-templates/*.md` for inspiration only; never copies a template verbatim.
+4. **Only after explicit approval**, write `./recruitment-plan.md` (human-readable) and `./.claude/agents/<role-slug>.md` for each worker role.
 5. Return a concise summary listing role slugs.
 
 > **Path requirement**: All file operations in this phase use paths relative to the project root (e.g., `./recruitment-plan.md`, `./.claude/agents/`). The main session and the Team-Leader must operate in the same directory. Resolve to the absolute project root if there is any ambiguity.
 
 **Critical**: the generated `<role-slug>.md` files MUST NOT contain a name, persona, emoji, or speaking style. Those are injected at TeamCreate time. The Team-Leader's instructions enforce this.
+
+**Equally critical**: nothing lands on disk before the user approves the draft. A premature `./.claude/agents/` directory is a bug — it means the sign-off gate was skipped.
 
 ---
 
@@ -194,7 +196,9 @@ skills/team-workflow/
         ├── qa-tester.md
         ├── architect.md
         ├── writer.md
-        └── researcher.md
+        ├── researcher.md
+        ├── devops.md
+        └── reviewer.md
 ```
 
 The role templates are **inspiration**, not stamping templates. The Team-Leader reads them when planning, then writes project-specific versions.

@@ -13,8 +13,5 @@
     "orchestration",
     "team-leader",
     "personality"
-  ],
-  "skills": ["./skills/team-workflow/"],
-  "commands": "./commands/",
-  "agents": "./agents/"
+  ]
 }
