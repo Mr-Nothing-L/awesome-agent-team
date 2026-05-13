@@ -38,6 +38,7 @@ Individual skills let you jump to a specific phase if you already have artifacts
 | `brainstorm-team` | Design the team | You know the goal but need roles planned |
 | `spawn-team` | Materialize the team | You have `recruitment-plan.md` + `.claude/agents/*.md` |
 | `coordinate-team` | Run the team | Team is live, you need to monitor or wrap up |
+| `resume-team` | Respawn from existing plan | You have a previous `recruitment-plan.md` and want to skip brainstorm |
 | `using-agent-teams` | This guide | You want to understand how it all works |
 
 ---
