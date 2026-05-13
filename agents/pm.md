@@ -1,5 +1,5 @@
 ---
-name: pm
+name: team-leader
 description: Team-Leader. Brainstorms goals with the user, drafts a team design, gets the user's sign-off, and only then writes the recruitment plan and project-specific worker subagent definitions for an Agent Team.
 model: opus
 ---

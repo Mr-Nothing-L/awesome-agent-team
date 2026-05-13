@@ -1,5 +1,11 @@
 ---
-description: Launch a real Claude Code Agent Team. A Team-Leader brainstorms your goal, drafts the team in conversation, gets your sign-off, then spawns persistent teammates via TeamCreate with randomized names and personalities.
+description: |
+  Launch a real Claude Code Agent Team (agent集群 / agent cluster / multi-agent).
+  A Team-Leader brainstorms your goal, drafts the team in conversation, gets your sign-off,
+  then spawns persistent parallel agents (并行 / parallel teammates) via TeamCreate
+  with randomized names and personalities. Also trigger by saying
+  "start a team", "create a team", "assemble agents", "deploy agent cluster",
+  "multi-agent collaboration", "spawn teammates", or "delegate tasks to agents".
 allowed-tools: Read, Write, Edit, Agent, TeamCreate, TeamDelete, SendMessage, TaskCreate, TaskUpdate, TaskList, TaskGet, TaskStop, ExitWorktree
 ---
 
@@ -87,7 +93,7 @@ Required:
 
 Spawn the Team-Leader as a **regular subagent** (NOT a teammate yet) via the `Agent` tool:
 
-- `subagent_type: "pm"`
+- `subagent_type: "awesome-agent-team:team-leader"`
 - Pass the user's initial goal as the task description.
 
 The Team-Leader will:

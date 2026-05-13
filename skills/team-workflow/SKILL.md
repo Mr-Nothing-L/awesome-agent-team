@@ -1,11 +1,24 @@
 ---
 name: team-workflow
-description: Orchestrate a persistent Agent Team via /start-team — brainstorm goals, generate project-specific worker roles, and spawn teammates with randomized names & personalities.
+description: |
+  Spawn a persistent Agent Team (agent集群 / agent cluster / multi-agent) via /start-team.
+  Brainstorm goals, generate project-specific worker roles, and deploy parallel agents
+  (并行 / parallel) with randomized names & personalities. Also trigger by saying
+  "start a team", "create a team", "assemble agents", "deploy agent cluster",
+  "multi-agent collaboration", "spawn teammates", or "delegate tasks to agents".
 ---
 
 # team-workflow — Agent Team protocol
 
 This skill is the source of truth for the `/start-team` command. The command file is a thin entry point; the protocol below is what you actually follow.
+
+## Implicit-trigger confirmation
+
+If the user loaded this skill by mentioning related concepts (e.g. "agent team", "agent cluster", "parallel agents", "multi-agent", "spawn teammates") **without** explicitly typing `/start-team`, **ask for confirmation before proceeding**:
+
+> "Sounds like you want to spin up an Agent Team — a Team-Leader plus a few parallel workers to tackle your goal. Want me to go ahead and start the process?"
+
+Only proceed to Phase 0 (Opening) after the user confirms ("yes", "ok", "go", "sure", "好的", "可以"). If they decline, drop the skill and continue the conversation normally.
 
 > **Prerequisite**: Claude Code with `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1` set in `~/.claude/settings.json`. The command's Phase 1 preflight auto-enables it but requires the user to restart Claude Code afterwards (env vars are read at process start).
 
@@ -52,13 +65,13 @@ Spawn the Team-Leader as a regular subagent (NOT a teammate yet):
 
 ```
 Agent({
-  subagent_type: "pm",
+  subagent_type: "awesome-agent-team:team-leader",
   description: "Brainstorm team for: <user's goal>",
   prompt: "<the user's initial goal>"
 })
 ```
 
-The Team-Leader's behaviour is fully defined in `agents/pm.md`. In summary they will:
+The Team-Leader's behaviour is fully defined in `agents/pm.md` (agent name: `team-leader`). In summary they will:
 
 1. Ask 2-4 rounds of clarifying questions (Mission, Stack, Scope, Quality).
 2. **Draft** 2-5 candidate roles, customized to the project (e.g., `frontend-react-tailwind` rather than `frontend-dev`), and present the draft to the user **in the conversation only** — no files on disk yet.
@@ -101,7 +114,7 @@ TeamCreate({
   teamName: "<repo-name>-team",   // or "awesome-agent-team" if no obvious project name
   teammates: [
     {
-      agentType: "pm",
+      agentType: "awesome-agent-team:team-leader",
       spawnPrompt: <PM_SPAWN_PROMPT>
     },
     {
@@ -143,7 +156,7 @@ Coordinate via:
 - TaskList / TaskGet / TaskUpdate for shared work
 - TaskCreate when you discover new work that needs tracking
 
-The Team-Leader ({{PM_NAME}}) owns scheduling and synthesis. Surface blockers and finished work to them.
+The Team-Leader ({{TEAM_LEADER_NAME}}) owns scheduling and synthesis. Surface blockers and finished work to them.
 ```
 
 #### Team-Leader template
@@ -171,7 +184,7 @@ After `TeamCreate` returns, send the Team-Leader teammate a single kickoff:
 
 ```
 SendMessage({
-  to: "<PM_NAME>",
+  to: "<TEAM_LEADER_NAME>",
   message: "Team is live. Roster as in your spawn prompt. Read ./recruitment-plan.md and begin coordinating."
 })
 ```
