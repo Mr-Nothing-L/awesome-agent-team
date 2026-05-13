@@ -104,9 +104,10 @@ Each phase of the workflow is also available as an independent skill. You can in
 | `brainstorm-team` | "brainstorm a team", "design my team", "plan team roles" | Team-Leader chats with you, designs roles, you approve |
 | `spawn-team` | "spawn my team", "deploy agents", "assemble teammates" | Draw names and personas, `TeamCreate`, kickoff |
 | `coordinate-team` | "check team progress", "monitor tasks", "nudge teammates" | Monitor, nudge, summarize, `TeamDelete` |
+| `resume-team` | "resume my team", "restart my team", "respawn team" | Skip brainstorm, respawn from existing `recruitment-plan.md` with fresh names/personas |
 | `using-agent-teams` | "how do agent teams work", "agent team guide" | Guide, quality bar, role templates reference |
 
-The `/start-team` command orchestrates `brainstorm-team` → `spawn-team` → `coordinate-team` automatically. Use individual skills when you want to jump to a specific phase (e.g. you already have a `recruitment-plan.md` from a previous run and just want to re-spawn).
+The `/start-team` command orchestrates `brainstorm-team` → `spawn-team` → `coordinate-team` automatically. Use individual skills when you want to jump to a specific phase. For example, if you already have a `recruitment-plan.md` from a previous run and just want to re-spawn with fresh names and personas, use `resume-team` instead of `/start-team`.
 
 ---
 
