@@ -49,7 +49,7 @@ Agent({
 })
 ```
 
-The Team-Leader's full behaviour is defined in `team-leader-prompt.md` (in this skill's directory).
+The Team-Leader's full behaviour is defined in `agents/team-leader.md` at the repo root (single source of truth).
 
 ---
 
